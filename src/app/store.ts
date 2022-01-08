@@ -1,10 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import positionReducer from '../features/position/positionSlice'
+import stopApi from "../features/stop/stopApi";
+import stopReducer from '../features/stop/stopSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    position: positionReducer,
+    [stopApi.reducerPath]: stopApi.reducer,
+    stop: stopReducer
   },
+  middleware: (getDefaultMiddleware => getDefaultMiddleware().concat(stopApi.middleware))
 });
 
 export type AppDispatch = typeof store.dispatch;
