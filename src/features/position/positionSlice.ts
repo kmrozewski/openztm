@@ -36,8 +36,9 @@ export const positionSlice = createSlice({
 
 export const { updateCoordinates, positionError } = positionSlice.actions
 
-export const selectCoordinates =  (state: RootState): Coordinates => state.position.coordinates;
+export const selectCoordinates =  (state: RootState): Coordinates => state.position.coordinates
+export const selectIsEmptyPosition = (state: RootState): boolean => state.position.coordinates.latitude === 0.0 && state.position.coordinates.longitude === 0.0
 export const selectPositionError =  (state: RootState): boolean => (state.position.coordinates.latitude === 0.0 && state.position.coordinates.longitude === 0.0)
-    || state.position.isError;
+    && state.position.isError
 
 export default positionSlice.reducer

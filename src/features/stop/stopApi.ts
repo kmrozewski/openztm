@@ -35,21 +35,16 @@ const stopApi = createApi({
         baseUrl: 'https://9zxn3ty97k.execute-api.eu-west-1.amazonaws.com/open-ztm',
         prepareHeaders: (headers) => {
 
-            headers.set('X-Api-Key', '')
+            headers.set('X-Api-Key', 'abbtG04pGDswo5iDGknE8GSBDTiXipl6ZiAuRZZ9')
             headers.set('Content-Type', 'application/json')
 
             return headers
         },
     }),
     endpoints: (builder) => ({
-        getClosestStops: builder.mutation<ClosestStop[], Coordinates>({
-            query(body) {
-                return {
-                    url: '/closestStops',
-                    method: 'POST',
-                    body
-                }
-            }
+        getClosestStops: builder.query<ClosestStop[], Coordinates>({
+            query: ({latitude, longitude}) => `/closestStops?latitude=${latitude}&longitude=${longitude}`,
+            transformResponse: (rawResult: {data: ClosestStop[]}) => rawResult.data
         }),
         getEstimatesById: builder.query<Estimate[], number>({
             query: (stopId: number) => `https://ckan2.multimediagdansk.pl/departures?stopId=${stopId}`,
@@ -58,6 +53,6 @@ const stopApi = createApi({
     }),
 })
 
-export const {useGetClosestStopsMutation, useGetEstimatesByIdQuery} = stopApi
+export const {useGetClosestStopsQuery, useGetEstimatesByIdQuery} = stopApi
 
 export default stopApi

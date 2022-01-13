@@ -1,56 +1,45 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useAppSelector} from "../../app/hooks";
 import {selectCoordinates, selectPositionError} from "../position/positionSlice";
-import {useGetClosestStopsMutation} from "../stop/stopApi";
+import {useGetClosestStopsQuery} from "../stop/stopApi";
 import {Accordion} from "react-bootstrap";
 import StopDisplay from "../stop/StopDisplay"
-import StopMap from "../stop/StopMap";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const Home: React.FC = () => {
     const coords = useAppSelector(selectCoordinates)
     const isError = useAppSelector(selectPositionError)
-    const [getStops, {isLoading}] = useGetClosestStopsMutation()
+    const {data, error, isLoading} = useGetClosestStopsQuery(coords)
 
-    useEffect(() => {
-        const call = async () => await getStops(coords)
-        const response = call()
-        console.log('response', response)
-
-    }, [coords])
-
-    if (isLoading) {
-        return <>Loading...</>
-    }
-
-    if (isError) {
+    if (isError || error) {
         return <>Failed to load data</>
     }
 
     return (
-        <>
+        <LoadingSpinner isLoading={isLoading}>
             <div>Hello world</div>
             <p>Latitude: {coords.latitude}</p>
             <p>Longitude: {coords.longitude}</p>
 
             <Accordion defaultActiveKey={"map"}>
-                <Accordion.Item key={"map"} eventKey={"map"}>
-                    <Accordion.Header>Map</Accordion.Header>
-                    <Accordion.Collapse eventKey={"map"}>
-                        <StopMap/>
-                    </Accordion.Collapse>
-                </Accordion.Item>
-                {/*{stops.map((stop, index) => {*/}
-                {/*    return (*/}
-                {/*        <Accordion.Item key={index} eventKey={index.toString()}>*/}
-                {/*            <Accordion.Header>({stop.distance} m) {stop.stop.stopDesc} {stop.stop.stopCode}</Accordion.Header>*/}
-                {/*            <Accordion.Collapse eventKey={index.toString()}>*/}
-                {/*                <StopDisplay stop={stop.stop}/>*/}
-                {/*            </Accordion.Collapse>*/}
-                {/*        </Accordion.Item>*/}
-                {/*    )*/}
-                {/*})}*/}
+                {/*<Accordion.Item key={"map"} eventKey={"map"}>*/}
+                {/*    <Accordion.Header>Map</Accordion.Header>*/}
+                {/*    <Accordion.Collapse eventKey={"map"}>*/}
+                {/*        <StopMap/>*/}
+                {/*    </Accordion.Collapse>*/}
+                {/*</Accordion.Item>*/}
+                {data?.map((closestStop, index) => {
+                    return (
+                        <Accordion.Item key={index} eventKey={index.toString()}>
+                            <Accordion.Header>({closestStop.distance} m) {closestStop.stop.stopDesc} {closestStop.stop.stopCode}</Accordion.Header>
+                            <Accordion.Collapse eventKey={index.toString()}>
+                                <StopDisplay stop={closestStop.stop}/>
+                            </Accordion.Collapse>
+                        </Accordion.Item>
+                    )
+                })}
             </Accordion>
-        </>
+        </LoadingSpinner>
     )
 }
 
