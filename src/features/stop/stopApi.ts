@@ -29,7 +29,7 @@ export interface Estimate {
 }
 
 
-const stopApi = createApi({
+const stopApi = createApi({ 
     reducerPath: 'stopApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://9zxn3ty97k.execute-api.eu-west-1.amazonaws.com/open-ztm',
@@ -43,8 +43,14 @@ const stopApi = createApi({
     }),
     endpoints: (builder) => ({
         getClosestStops: builder.query<ClosestStop[], Coordinates>({
-            query: ({latitude, longitude}) => `/closestStops?latitude=${latitude}&longitude=${longitude}`,
-            transformResponse: (rawResult: {data: ClosestStop[]}) => rawResult.data
+            query: ({latitude, longitude}) => {
+                console.log('query', latitude, longitude)
+                return `/closestStops?latitude=${latitude}&longitude=${longitude}`
+            },
+            transformResponse: (rawResult: {data: ClosestStop[]}) => {
+                console.log('response', rawResult)
+                return rawResult.data
+            }
         }),
         getEstimatesById: builder.query<Estimate[], number>({
             query: (stopId: number) => `https://ckan2.multimediagdansk.pl/departures?stopId=${stopId}`,

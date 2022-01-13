@@ -2,13 +2,12 @@ import React, {Suspense} from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './App.css';
 import usePosition from "./features/position/usePosition";
-import useLeafletMarker from "./features/common/useLeafletMarker";
 
 const Home = React.lazy(() => import("./features/home/Home"))
 const StopMap = React.lazy(() => import("./features/stop/StopMap"))
 
 function App() {
-    useLeafletMarker()
+    //useLeafletMarker()
     usePosition()
 
     return (

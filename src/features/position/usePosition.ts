@@ -1,27 +1,39 @@
-import {Coordinates, positionError, selectCoordinates, updateCoordinates} from "./positionSlice";
+import {positionError, selectCoordinates, updateCoordinates} from "./positionSlice";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {useCallback, useMemo} from "react";
-import useGeolocation, {EnrichedGeolocationCoordinates} from 'react-hook-geolocation'
+import {useCallback, useEffect} from "react";
 
 
 const usePosition = () => {
     const dispatch = useAppDispatch()
     const oldCoords = useAppSelector(selectCoordinates)
 
-    const onGeolocationUpdate = useCallback((geolocation: EnrichedGeolocationCoordinates): void => {
-        if (!geolocation.error && oldCoords.latitude !== geolocation.latitude
-            && oldCoords.longitude !== geolocation.longitude) {
-            dispatch(updateCoordinates({...geolocation}))
-        } else {
-            dispatch(positionError())
+    const onChange = (position: GeolocationPosition) => {
+        const coords = position.coords
+        if (isDifferent(coords)) {
+            dispatch(updateCoordinates({latitude: coords.latitude, longitude: coords.longitude}))
         }
-    }, [dispatch]);
+    }
 
-    useGeolocation({
-        enableHighAccuracy: true,
-        maximumAge:         15000,
-        timeout:            12000
-    }, onGeolocationUpdate)
+    const onError = (error: GeolocationPositionError) => {
+        dispatch(positionError(error.message))
+    }
+
+    const isDifferent = useCallback((newCoords: GeolocationCoordinates) => {
+        return oldCoords.latitude !== newCoords.latitude && oldCoords.longitude !== newCoords.longitude
+    }, [])
+
+    useEffect(() => {
+        const geo = navigator.geolocation
+
+        if (!geo) {
+            dispatch(positionError("Geolocation turned off"))
+        }
+
+        const watcher = geo.watchPosition(onChange, onError)
+
+        return () => geo.clearWatch(watcher)
+    }, [])
+
 }
 
 export default usePosition

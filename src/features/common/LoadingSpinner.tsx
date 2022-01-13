@@ -7,12 +7,9 @@ export interface LoadingSpinnerProps {
     isLoading: boolean
 }
 
-// const StopMarker: React.FC<StopMarkerProps> = ({closestStops}) => {
-
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isLoading, children}) => {
 
     const isEmptyPosition = useAppSelector(selectIsEmptyPosition)
-    console.log('children', children)
 
     if (isLoading || isEmptyPosition) {
         return (
@@ -22,7 +19,11 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isLoading, children}) =>
         )
     }
 
-     return children
+     return (
+        <>
+            {children}
+        </>
+    )
 }
 
 export default LoadingSpinner
