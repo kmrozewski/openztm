@@ -17,18 +17,6 @@ export interface Stop {
     stopLon: number,
 }
 
-export interface Estimate {
-    id: string,
-    delayInSeconds: number,
-    estimatedTime: string,
-    theoreticalTime: string,
-    headsign: string,
-    routeId: number,
-    tripId: number,
-    vehicleId: number
-}
-
-
 const stopApi = createApi({ 
     reducerPath: 'stopApi',
     baseQuery: fetchBaseQuery({
@@ -43,22 +31,11 @@ const stopApi = createApi({
     }),
     endpoints: (builder) => ({
         getClosestStops: builder.query<ClosestStop[], Coordinates>({
-            query: ({latitude, longitude}) => {
-                console.log('query', latitude, longitude)
-                return `/closestStops?latitude=${latitude}&longitude=${longitude}`
-            },
-            transformResponse: (rawResult: {data: ClosestStop[]}) => {
-                console.log('response', rawResult)
-                return rawResult.data
-            }
-        }),
-        getEstimatesById: builder.query<Estimate[], number>({
-            query: (stopId: number) => `https://ckan2.multimediagdansk.pl/departures?stopId=${stopId}`,
-            transformResponse: (response: Object) => Object.values(response)[1]
+            query: ({latitude, longitude}) => `/closestStops?latitude=${latitude}&longitude=${longitude}`
         }),
     }),
 })
 
-export const {useGetClosestStopsQuery, useGetEstimatesByIdQuery} = stopApi
+export const {useGetClosestStopsQuery} = stopApi
 
 export default stopApi

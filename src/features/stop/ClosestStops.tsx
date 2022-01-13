@@ -10,7 +10,7 @@ interface ClosestStopsProps {
 const ClosestStops: React.FC<ClosestStopsProps> = ({closestStops}) => {
     return (
         <>
-            {closestStops.map((cs, index) => <ClosestStopDisplay closestStop={cs} index={index}/>)}
+            {closestStops.map(cs => <ClosestStopDisplay key={cs.stop.stopId} closestStop={cs}/>)}
         </>
     )
 }

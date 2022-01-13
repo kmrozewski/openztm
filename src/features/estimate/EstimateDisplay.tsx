@@ -1,5 +1,6 @@
 import React from "react";
-import {Stop, useGetEstimatesByIdQuery} from "./stopApi";
+import {Stop} from "../stop/stopApi";
+import {useGetEstimatesByIdQuery} from './estimateApi'
 import {Card} from "react-bootstrap";
 import {timeFormat} from "../common/utils";
 
@@ -7,7 +8,7 @@ export interface StopProps {
     stop: Stop
 }
 
-const StopDisplay: React.FC<StopProps> = (props) => {
+const EstimateDisplay: React.FC<StopProps> = (props) => {
     const {data, error, isLoading} = useGetEstimatesByIdQuery(props.stop.stopId)
 
     if (!data || data.length === 0) {
@@ -35,4 +36,4 @@ const StopDisplay: React.FC<StopProps> = (props) => {
     )
 }
 
-export default StopDisplay
+export default EstimateDisplay

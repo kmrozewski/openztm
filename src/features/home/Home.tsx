@@ -3,7 +3,6 @@ import {useAppSelector} from "../../app/hooks";
 import {selectCoordinates, selectPositionError} from "../position/positionSlice";
 import {useGetClosestStopsQuery} from "../stop/stopApi";
 import {Accordion} from "react-bootstrap";
-import StopDisplay from "../stop/StopDisplay"
 import LoadingSpinner from "../common/LoadingSpinner";
 import ClosestStops from '../stop/ClosestStops'
 
@@ -19,11 +18,10 @@ const Home: React.FC = () => {
 
     return (
         <LoadingSpinner isLoading={isLoading}>
-            <div>Hello world</div>
             <p>Latitude: {coords.latitude}</p>
             <p>Longitude: {coords.longitude}</p>
 
-            <Accordion defaultActiveKey={"map"}>
+            <Accordion >
                 {/*<Accordion.Item key={"map"} eventKey={"map"}>*/}
                 {/*    <Accordion.Header>Map</Accordion.Header>*/}
                 {/*    <Accordion.Collapse eventKey={"map"}>*/}

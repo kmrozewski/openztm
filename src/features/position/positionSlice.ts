@@ -29,7 +29,6 @@ export const positionSlice = createSlice({
     initialState,
     reducers: {
         updateCoordinates: (state, action: PayloadAction<Coordinates>) => {
-            console.log('updated positionslice', action.payload)
             const coords = action.payload
             state.coordinates.latitude = coords.latitude
             state.coordinates.longitude = coords.longitude

@@ -1,7 +1,8 @@
 import React from "react";
 import {useAppSelector} from "../../app/hooks";
 import {selectIsEmptyPosition} from "../position/positionSlice";
-import {Spinner} from "react-bootstrap";
+import {Spinner, Container, Row, Col} from "react-bootstrap";
+import styles from "./LoadingSpinner.module.css"
 
 export interface LoadingSpinnerProps {
     isLoading: boolean
@@ -11,11 +12,17 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isLoading, children}) =>
 
     const isEmptyPosition = useAppSelector(selectIsEmptyPosition)
 
-    if (isLoading || isEmptyPosition) {
+    if (true/*isLoading || isEmptyPosition*/) {
         return (
-            <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <Container fluid>
+            <Row className={"align-items-center"}>
+                <Col md={{span: 2, offset: 5}}>
+                    <Spinner className={styles.spinner} animation={"grow"} variant={"primary"} role={"status"}>
+                        <span className={"visually-hidden"}>Loading...</span>
+                    </Spinner>
+                </Col>
+            </Row>
+            </Container>
         )
     }
 
