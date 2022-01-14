@@ -1,7 +1,7 @@
 import React from 'react'
 import {Accordion} from 'react-bootstrap'
 import EstimateDisplay from '../estimate/EstimateDisplay'
-import {ClosestStop} from './stopSlice' 
+import {ClosestStop} from "./stopApi";
 
 interface ClosestStopProps {
     closestStop: ClosestStop

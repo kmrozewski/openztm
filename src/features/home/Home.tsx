@@ -5,6 +5,7 @@ import {useGetClosestStopsQuery} from "../stop/stopApi";
 import {Accordion} from "react-bootstrap";
 import LoadingSpinner from "../common/LoadingSpinner";
 import ClosestStops from '../stop/ClosestStops'
+import StopMap from "../map/StopMap";
 
 
 const Home: React.FC = () => {
@@ -21,13 +22,13 @@ const Home: React.FC = () => {
             <p>Latitude: {coords.latitude}</p>
             <p>Longitude: {coords.longitude}</p>
 
-            <Accordion >
-                {/*<Accordion.Item key={"map"} eventKey={"map"}>*/}
-                {/*    <Accordion.Header>Map</Accordion.Header>*/}
-                {/*    <Accordion.Collapse eventKey={"map"}>*/}
-                {/*        <StopMap/>*/}
-                {/*    </Accordion.Collapse>*/}
-                {/*</Accordion.Item>*/}
+            <Accordion defaultActiveKey={"map"}>
+                <Accordion.Item key={"map"} eventKey={"map"}>
+                    <Accordion.Header>Map</Accordion.Header>
+                    <Accordion.Collapse eventKey={"map"}>
+                        <StopMap/>
+                    </Accordion.Collapse>
+                </Accordion.Item>
                 {data && <ClosestStops closestStops={data}/>}
             </Accordion>
         </LoadingSpinner>

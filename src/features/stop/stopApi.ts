@@ -1,5 +1,4 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {ClosestStop} from "./stopSlice";
 import {Coordinates} from "../position/positionSlice";
 
 export interface Stop {
@@ -15,6 +14,11 @@ export interface Stop {
 
     stopLat: number,
     stopLon: number,
+}
+
+export interface ClosestStop {
+    distance: number,
+    stop: Stop
 }
 
 const stopApi = createApi({ 
