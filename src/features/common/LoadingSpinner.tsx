@@ -12,21 +12,21 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({isLoading, children}) =>
 
     const isEmptyPosition = useAppSelector(selectIsEmptyPosition)
 
-    if (true/*isLoading || isEmptyPosition*/) {
+    if (isLoading || isEmptyPosition) {
         return (
             <Container fluid>
-            <Row className={"align-items-center"}>
-                <Col md={{span: 2, offset: 5}}>
-                    <Spinner className={styles.spinner} animation={"grow"} variant={"primary"} role={"status"}>
-                        <span className={"visually-hidden"}>Loading...</span>
-                    </Spinner>
-                </Col>
-            </Row>
+                <Row className={"align-items-center vh-100"}>
+                    <Col md={{span: 2, offset: 5}}>
+                        <Spinner className={styles.spinner} animation={"grow"} variant={"primary"} role={"status"}>
+                            <span className={"visually-hidden"}>Loading...</span>
+                        </Spinner>
+                    </Col>
+                </Row>
             </Container>
         )
     }
 
-     return (
+    return (
         <>
             {children}
         </>
