@@ -1,6 +1,6 @@
 import React from 'react'
 import ClosestStopDisplay from './ClosestStopDisplay'
-import {ClosestStop} from './stopSlice'
+import {ClosestStop} from "./stopApi";
 
 
 interface ClosestStopsProps {

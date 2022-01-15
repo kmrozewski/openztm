@@ -2,6 +2,7 @@ import {useEffect} from "react";
 
 const useLeafletMarker = () => {
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const L = require("leaflet");
         delete L.Icon.Default.prototype._getIconUrl;
 

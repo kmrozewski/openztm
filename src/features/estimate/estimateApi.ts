@@ -11,7 +11,6 @@ export interface Estimate {
     vehicleId: number
 }
 
-
 const estimateApi = createApi({ 
     reducerPath: 'estimateApi',
     baseQuery: fetchBaseQuery({
@@ -20,7 +19,7 @@ const estimateApi = createApi({
     endpoints: (builder) => ({
         getEstimatesById: builder.query<Estimate[], number>({
             query: (stopId: number) => `/departures?stopId=${stopId}`,
-            transformResponse: (response: Object) => Object.values(response)[1]
+            transformResponse: (response: {departures: Estimate[]}) => response.departures
         }),
     }),
 })
