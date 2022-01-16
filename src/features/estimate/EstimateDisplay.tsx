@@ -9,7 +9,7 @@ export interface StopProps {
 }
 
 const EstimateDisplay: React.FC<StopProps> = (props) => {
-    const {data, error, isLoading} = useGetEstimatesByIdQuery(props.stop.stopId)
+    const {data, error} = useGetEstimatesByIdQuery(props.stop.stopId)
 
     if (!data || data.length === 0) {
         return <>No estimates found</>
