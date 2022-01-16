@@ -27,8 +27,13 @@ pipeline {
                 echo 'TODO cypress tests'
             }
         }
-        stage('deploy approval') {
-            input "Deploy to PROD?"
+        stage('ready to deploy') {
+            options {
+                timeout(time: 5, unit: 'MINUTES')
+            }
+            steps {
+                input(message: "Deploy to production?")
+            }
         }
         stage('prod deployment') {
             steps {
