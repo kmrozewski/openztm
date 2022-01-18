@@ -25,26 +25,33 @@ pipeline {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                    sh "aws s3 sync ./build s3://test.ztmgdansk/"
+                    sh 'aws s3 sync ./build s3://test.ztmgdansk/ --delete'
                 }
             }
         }
         stage('e2e tests') {
             steps {
-                echo 'TODO cypress tests'
+                sh 'npm run cypress:run'
             }
         }
         stage('ready to deploy') {
             options {
-                timeout(time: 5, unit: 'MINUTES')
+                timeout(time: 15, unit: 'MINUTES')
             }
             steps {
-                input(message: "Deploy to production?")
+                input(message: 'Deploy to production?')
             }
         }
         stage('prod deployment') {
             steps {
-                echo 'TODO deployment to prod'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "aws-keys",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh 'aws s3 sync ./build s3://ztmgdansk/ --delete'
+                }
             }
         }
     }
