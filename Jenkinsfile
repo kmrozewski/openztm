@@ -17,9 +17,16 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        stage('staging deployment') {
+        stage('test deployment') {
             steps {
-                echo 'TODO aws blue/green deployment'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "aws-keys",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh "aws s3 sync ./build s3://test.ztmgdansk/"
+                }
             }
         }
         stage('e2e tests') {
