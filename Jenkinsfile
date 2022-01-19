@@ -29,11 +29,6 @@ pipeline {
                 }
             }
         }
-        stage('e2e tests') {
-            steps {
-                sh 'npm run cypress:run'
-            }
-        }
         stage('ready to deploy') {
             options {
                 timeout(time: 15, unit: 'MINUTES')

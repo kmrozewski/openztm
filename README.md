@@ -27,19 +27,3 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-# E2E tests
-The project contains e2e tests written in cypress
-
-## Cypress
-
-### Headless mode
-To run cypress e2e tests in headless mode, type following command
-```bash
-npm run cypress:run
-```
-### GUI
-To open cypress gui, type following command
-```bash
-npm run cypress:open
-```
