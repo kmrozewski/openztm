@@ -37,5 +37,7 @@ Build optimized content for S3 static website hosting
 npm run build
 ```
 Upload build artifacts to S3 and delete contents in the S3 bucket that are not present in the build dir
+```bash
 aws s3 sync ./build s3://<bucket-name>/ --delete
+```
 
