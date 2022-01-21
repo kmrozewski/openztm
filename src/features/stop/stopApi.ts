@@ -24,14 +24,7 @@ export interface ClosestStop {
 const stopApi = createApi({ 
     reducerPath: 'stopApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://9zxn3ty97k.execute-api.eu-west-1.amazonaws.com/open-ztm',
-        prepareHeaders: (headers) => {
-
-            headers.set('X-Api-Key', 'abbtG04pGDswo5iDGknE8GSBDTiXipl6ZiAuRZZ9')
-            headers.set('Content-Type', 'application/json')
-
-            return headers
-        },
+        baseUrl: `https://dt0330owhi.execute-api.eu-west-1.amazonaws.com/api`,
     }),
     endpoints: (builder) => ({
         getClosestStops: builder.query<ClosestStop[], Coordinates>({
