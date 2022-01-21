@@ -1,6 +1,9 @@
 # Introduction
 This is a rewrite of my previous project called `OpenZtmGdansk`. The older version used react class components and backend in spring boot to make calls. This approach is using the most recent approach in react - hooks with redux-toolkit. The app does not have backend, i.e. external API calls are made from the client side (with parsing the response).
 
+## Architecture diagram
+![architecture diagram](openztm.drawio.png "Architecture diagram")
+
 # Getting started
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 ```bash
@@ -27,3 +30,12 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+# Deployment
+Build optimized content for S3 static website hosting
+```bash
+npm run build
+```
+Upload build artifacts to S3 and delete contents in the S3 bucket that are not present in the build dir
+aws s3 sync ./build s3://<bucket-name>/ --delete
+
