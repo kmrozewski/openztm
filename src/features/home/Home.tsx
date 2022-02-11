@@ -1,27 +1,24 @@
 import React from "react";
 import {useAppSelector} from "../../app/hooks";
-import {selectCoordinates, selectPositionError} from "../position/positionSlice";
-import {useGetClosestStopsQuery} from "../stop/stopApi";
+import {selectPositionError} from "../position/positionSlice";
 import {Accordion} from "react-bootstrap";
 import LoadingSpinner from "../common/LoadingSpinner";
 import ClosestStops from '../stop/ClosestStops'
 import StopMap from "../map/StopMap";
+import {selectClosestStops, selectClosestStopsStatus} from "../stop/stopSlice";
 
 
 const Home: React.FC = () => {
-    const coords = useAppSelector(selectCoordinates)
     const isError = useAppSelector(selectPositionError)
-    const {data, error, isLoading} = useGetClosestStopsQuery(coords)
+    const closestStops = useAppSelector(selectClosestStops)
+    const status = useAppSelector(selectClosestStopsStatus)
 
-    if (isError || error) {
+    if (isError || status === "failed") {
         return <>Failed to load data</>
     }
 
     return (
-        <LoadingSpinner isLoading={isLoading}>
-            <p>Latitude: {coords.latitude}</p>
-            <p>Longitude: {coords.longitude}</p>
-
+        <LoadingSpinner isLoading={status === "loading"}>
             <Accordion defaultActiveKey={"map"}>
                 <Accordion.Item key={"map"} eventKey={"map"}>
                     <Accordion.Header>Map</Accordion.Header>
@@ -29,7 +26,7 @@ const Home: React.FC = () => {
                         <StopMap/>
                     </Accordion.Collapse>
                 </Accordion.Item>
-                {data && <ClosestStops closestStops={data}/>}
+                {closestStops && <ClosestStops closestStops={closestStops}/>}
             </Accordion>
         </LoadingSpinner>
     )

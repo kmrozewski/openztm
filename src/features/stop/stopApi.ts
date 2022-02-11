@@ -1,4 +1,4 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import axios from "axios";
 import {Coordinates} from "../position/positionSlice";
 
 export interface Stop {
@@ -21,18 +21,13 @@ export interface ClosestStop {
     stop: Stop
 }
 
-const stopApi = createApi({ 
-    reducerPath: 'stopApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `https://dt0330owhi.execute-api.eu-west-1.amazonaws.com/api`,
-    }),
-    endpoints: (builder) => ({
-        getClosestStops: builder.query<ClosestStop[], Coordinates>({
-            query: ({latitude, longitude}) => `/closestStops?latitude=${latitude}&longitude=${longitude}`
-        }),
-    }),
-})
+const API = "https://dt0330owhi.execute-api.eu-west-1.amazonaws.com/api"
 
-export const {useGetClosestStopsQuery} = stopApi
+export const getClosestStops = async (coords: Coordinates): Promise<ClosestStop[]> => {
+    const response = await axios({
+        method: "GET",
+        url: `${API}/closestStops?latitude=${coords.latitude}&longitude=${coords.longitude}`
+    });
 
-export default stopApi
+    return response.data;
+};

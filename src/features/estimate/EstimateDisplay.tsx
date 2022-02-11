@@ -1,15 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Stop} from "../stop/stopApi";
 import {useGetEstimatesByIdQuery} from './estimateApi'
 import {Card} from "react-bootstrap";
 import {timeFormat} from "../common/utils";
+import {useAppDispatch} from "../../app/hooks";
+import {addVehicleIds} from "../vehicle/vehicleSlice";
 
 export interface StopProps {
     stop: Stop
 }
 
 const EstimateDisplay: React.FC<StopProps> = (props) => {
+    const dispatch = useAppDispatch()
     const {data, error} = useGetEstimatesByIdQuery(props.stop.stopId)
+
+    useEffect(() => {
+        if (data) {
+            dispatch(addVehicleIds(data))
+        }
+    }, [data])
 
     if (!data || data.length === 0) {
         return <>No estimates found</>
@@ -27,7 +36,6 @@ const EstimateDisplay: React.FC<StopProps> = (props) => {
                         <Card.Body>
                             <Card.Title>{estimate.routeId}: {estimate.headsign}</Card.Title>
                             <Card.Subtitle>{estimate.estimatedTime ? timeFormat(estimate.estimatedTime) : timeFormat(estimate.theoreticalTime)}</Card.Subtitle>
-                            <Card.Link>Bus position</Card.Link>
                         </Card.Body>
                     </Card>
                 )
